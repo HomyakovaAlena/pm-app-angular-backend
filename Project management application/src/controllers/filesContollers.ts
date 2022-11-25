@@ -1,19 +1,17 @@
-import { Response, Request } from 'express';
-import { createError } from '../services/error.service';
-import fs from 'fs';
-import * as fileService from '../services/file.service';
-import * as boardService from '../services/board.service';
-
-
+import { Response, Request } from "express";
+import { createError } from "../services/error.service";
+import fs from "fs";
+import * as fileService from "../services/file.service";
+import * as boardService from "../services/board.service";
 
 export const getFile = async (req: Request, res: Response) => {
-  const path = `files/${req.params.taskId}-${req.params.fileName}`
+  const path = `files/${req.params.taskId}-${req.params.fileName}`;
   fs.readFile(path, (err, file) => {
     if (err) {
       return res.status(404).send(createError(404, "file not founded"));
     }
-    res.setHeader('Content-Type', 'image/jpeg');
-    res.send(file)
+    res.setHeader("Content-Type", "image/jpeg");
+    res.send(file);
   });
 };
 
@@ -22,24 +20,26 @@ export const getFilesByBoard = async (req: Request, res: Response) => {
   try {
     const files = await fileService.findFiles({ boardId });
     res.json(files);
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
 export const findFiles = async (req: Request, res: Response) => {
-  const boards = await boardService.getBordsIdsByUserId(req.query.userId as string);
+  const boards = await boardService.getBordsIdsByUserId(
+    req.query.userId as string
+  );
   const ids = req.query.ids as string[];
   const taskId = req.query.taskId as string;
   const allFiles = await fileService.findFiles({});
   if (ids) {
-    return res.json(allFiles.filter(item => ids.includes(item._id)));
+    return res.json(allFiles.filter((item) => ids.includes(item._id)));
   } else if (taskId) {
-    return res.json(allFiles.filter(oneFile => oneFile.taskId == taskId));
+    return res.json(allFiles.filter((oneFile) => oneFile.taskId == taskId));
   } else if (boards) {
-    return res.json(allFiles.filter(oneFile => boards.includes(oneFile.boardId)));
+    return res.json(
+      allFiles.filter((oneFile) => boards.includes(oneFile.boardId))
+    );
   } else {
-    return res.status(400).send(createError(400, 'Bad request'));
+    return res.status(400).send(createError(400, "Bad request"));
   }
 };
 
@@ -55,12 +55,16 @@ export const uploadFile = async (req: Request, res: Response) => {
 };
 
 export const deleteFile = async (req: Request, res: Response) => {
-  const guid = req.header('Guid') || 'undefined';
-  const initUser = req.header('initUser') || 'undefined';
+  const guid = req.header("Guid") || "undefined";
+  const initUser = req.header("initUser") || "undefined";
   try {
-    const deletedFile = await fileService.deleteFileById(req.params.fileId, guid, initUser);
+    const deletedFile = await fileService.deleteFileById(
+      req.params.fileId,
+      guid,
+      initUser
+    );
     res.json(deletedFile);
+  } catch (err) {
+    return console.log(err);
   }
-  catch (err) { return console.log(err); }
 };
-

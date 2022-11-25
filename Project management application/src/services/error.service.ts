@@ -5,7 +5,7 @@ export function createError(statusCode: number, message: string) {
 export function checkBody(body: object, keys: string[]): string | null {
   const bodyKeys = Object.keys(body);
   if (bodyKeys.length === 0) {
-    return 'body is required';
+    return "body is required";
   }
   for (const key of keys) {
     if (!body.hasOwnProperty(key)) {
@@ -13,8 +13,8 @@ export function checkBody(body: object, keys: string[]): string | null {
     }
   }
   if (bodyKeys.length > keys.length) {
-    const extraProps = bodyKeys.filter(prop => !keys.includes(prop));
-    return `properties [ ${extraProps.join(',')} ] shouldn't exist`
+    const extraProps = bodyKeys.filter((prop) => !keys.includes(prop));
+    return `properties [ ${extraProps.join(",")} ] shouldn't exist`;
   }
   return null;
 }

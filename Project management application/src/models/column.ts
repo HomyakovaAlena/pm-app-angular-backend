@@ -1,19 +1,22 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const { Schema } = mongoose;
-const columnScheme = new Schema({
-  title: {
-    type: String,
-    required: true,
+const columnScheme = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    order: {
+      type: Number,
+      required: true,
+    },
+    boardId: {
+      type: String,
+      required: true,
+    },
   },
-  order: {
-    type: Number,
-    required: true,
-  },
-  boardId: {
-    type: String,
-    required: true,
-  }
-}, { versionKey: false });
+  { versionKey: false }
+);
 
-export default mongoose.model('Column', columnScheme);
+export default mongoose.model("Column", columnScheme);

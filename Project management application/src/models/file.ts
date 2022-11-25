@@ -1,23 +1,26 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const { Schema } = mongoose;
-const fileScheme = new Schema({
-  name: {
-    type: String,
-    required: true,
+const fileScheme = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    taskId: {
+      type: String,
+      required: true,
+    },
+    boardId: {
+      type: String,
+      required: true,
+    },
+    path: {
+      type: String,
+      required: true,
+    },
   },
-  taskId: {
-    type: String,
-    required: true,
-  },
-  boardId: {
-    type: String,
-    required: true,
-  },
-  path: {
-    type: String,
-    required: true,
-  }
-}, { versionKey: false });
+  { versionKey: false }
+);
 
-export default mongoose.model('File', fileScheme);
+export default mongoose.model("File", fileScheme);
